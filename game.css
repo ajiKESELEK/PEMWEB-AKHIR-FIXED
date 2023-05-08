@@ -1,0 +1,75 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    padding: 0;
+  }
+  
+  .game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: black;
+  }
+  
+  .background-image {
+    width: 800px;
+    height: 450px;
+    background-image: url('background.jpg');
+    background-size: cover;
+    background-position: center;
+    margin-bottom: 20px;
+  }
+  
+  .character-image {
+    width: 400px;
+    height: 450px;
+    background-image: url('character.png');
+    background-size: cover;
+    background-position: center;
+    margin-right: 20px;
+  }
+  
+  .dialogue-box {
+    width: 800px;
+    height: 150px;
+    background-color: white;
+    border: 2px solid black;
+    padding: 10px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .dialogue {
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+  }
+  
+  .choice-box {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }
+  
+  .choice {
+    font-size: 18px;
+    font-weight: bold;
+    padding: 10px 20px;
+    margin-bottom: 10px;
+    border: 2px solid black;
+    background-color: white;
+    cursor: pointer;
+  }
+  
+  .choice:hover {
+    background-color: black;
+    color: white;
+  }
+  
