@@ -1,0 +1,63 @@
+<!-- Tugas 2 -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Tabel Dinamis</title>
+    <style>
+        #tabel-dinamis {
+            margin-top: 20px;
+        }
+        
+        table {
+            border-collapse: collapse;
+            margin: 0 auto;
+        }
+        
+        td {
+            padding: 10px;
+            border: 1px solid #727272;
+            text-align: center;
+        }
+        </style>
+  </head>
+  <body>
+    <div style="text-align:center;">
+      <label for="jumlah-baris">Jumlah Baris:</label>
+      <input type="number" id="jumlah-baris" name="jumlah-baris" min="1" required>
+      <br>
+      <label for="jumlah-kolom">Jumlah Kolom:</label>
+      <input type="number" id="jumlah-kolom" name="jumlah-kolom" min="1" required>
+      <br>
+      <br>
+      <input type="button" value="Buat Tabel" onclick="buatTabel()">
+    </div>
+    <div id="tabel-dinamis"></div>
+    
+    <script>
+      function buatTabel() {
+          var jumlahBaris = document.getElementById("jumlah-baris").value;
+          var jumlahKolom = document.getElementById("jumlah-kolom").value;
+          
+          var tabel = document.createElement("table");
+          var tbody = document.createElement("tbody");
+        
+          for (var i = 1; i <= jumlahBaris; i++) {
+              var tr = document.createElement("tr");
+  
+              for (var j = 1; j <= jumlahKolom; j++) {
+              var td = document.createElement("td");
+              var teks = document.createTextNode(i + "." + j);
+              td.appendChild(teks);
+              tr.appendChild(td);
+              }
+              tbody.appendChild(tr);
+          }
+          tabel.appendChild(tbody);
+          
+          var tabelDinamis = document.getElementById("tabel-dinamis");
+          tabelDinamis.innerHTML = "";
+          tabelDinamis.appendChild(tabel);
+      }
+      </script>
+  </body>
+</html>
