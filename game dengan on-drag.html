@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Game Interaktif Visual Novel Lalu Lintas</title>
+	<style>
+		body {
+			font-family: Arial, sans-serif;
+			margin: 0;
+			padding: 0;
+			background-color: #F5F5F5;
+		}
+
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin: 50px auto;
+			max-width: 800px;
+			box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+			padding: 30px;
+			background-color: #F9F9F9;
+			border-radius: 5px;
+			transition: all 0.3s ease;
+		}
+
+		.container:hover {
+			transform: translateY(-10px);
+			box-shadow: 0px 15px 20px rgba(0, 0, 0, 0.1);
+		}
+
+		.image-container {
+			display: flex;
+			align-items: center;
+			margin-bottom: 20px;
+		}
+
+		.image {
+			height: 250px;
+			width: auto;
+			margin-right: 20px;
+			transition: all 0.3s ease;
+			border-radius: 5px;
+			box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.1);
+		}
+
+		.image:hover {
+			transform: scale(1.1);
+		}
+
+		.text {
+			color: #444444;
+			font-size: 1.2em;
+			margin-bottom: 20px;
+			text-align: justify;
+			line-height: 1.5;
+			opacity: 0;
+			transform: translateY(20px);
+			transition: all 0.3s ease;
+		}
+
+		.container:hover .text {
+			opacity: 1;
+			transform: translateY(0px);
+		}
+
+		.dropzone-container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			margin-top: 20px;
+		}
+
+		.dropzone {
+			height: 70px;
+			width: 300px;
+			border: 2px groove #999999;
+			border-radius: 5px;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			font-size: 1.2em;
+			margin-top: 10px;
+			background-color: #F5F5F5;
+			transition: background-color 0.3s ease;
+			cursor: pointer;
+		}
+
+		.dropzone:hover {
+			border-color: #555555;
+		}
+
+		.dropzone.selected {
+			background-color: #CCCCCC;
+		}
+
+		.result {
+			margin-top: 20px;
+			text-align: center;
+			font-size: 1.4em;
+			color: #2E8B57;
+			font-weight: bold;
+		}
+
+		.modal {
+			display: none;
+			position: fixed;
+			z-index: 1;
+			left: 0;
+			top: 0;
+			width: 100%;
+			height: 100%;
+			overflow: auto;
+			background-color: rgba(0, 0, 0, 0.5);
+		}
+		.modal-content {
+			background-color: #FFFFFF;
+			margin: 15% auto;
+			padding: 20px;
+			border: 1px solid #888;
+			width: 80%;
+			max-width: 400px;
+			border-radius: 5px;
+			text-align: center;
+			box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+		}
+
+		.modal-close {
+			color: #888;
+			float: right;
+			font-size: 28px;
+			cursor: pointer;
+		}
+
+		.option {
+			display: flex;
+			align-items: center;
+			margin-bottom: 10px;
+		}
+
+		.option-icon {
+			width: 20px;
+			height: 20px;
+			margin-right: 10px;
+		}
+
+		.option-label {
+			font-size: 1.2em;
+			color: #444444;
+		}
+
+		.option:hover {
+			background-color: #F9F9F9;
+		}
+
+		.option.selected {
+			background-color: #CCCCCC;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1 style="color: #444444; text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);">Episode 1: Perjalanan ke Kantor</h1>
+		<div class="image-container">
+			<div>
+				<div class="dropzone" id="dropzone1" ondrop="drop(event)" ondragover="allowDrop(event)">Aku akan mencoba jalur baru yang lebih sepi</div>
+			</div>
+			<img class="image" src="https://www.researchgate.net/publication/335117521/figure/fig1/AS:791059374292996@1565614660285/Gambar-10-Contoh-Background-Pinggir-jalan-raya-pada-Scene-3.jpg" alt="gambar 1">
+			<div>
+				<div class="dropzone" id="dropzone2" ondrop="drop(event)" ondragover="allowDrop(event)">Aku akan memilih jalur yang biasa aku lewati</div>
+			</div>
+		</div>
+		<p class="text">Hari ini kamu harus pergi ke kantor menggunakan kendaraan pribadi. Kamu harus melewati beberapa persimpangan jalan yang cukup ramai. Apa yang akan kamu lakukan?</p>
+		<img class="image" src="https://png.pngtree.com/png-vector/20220908/ourmid/pngtree-multi-ratio-car-back-side-png-image_6143666.png" alt="gambar 2" draggable="true" ondragstart="drag(event)">
+		<p class="result" id="result"></p>
+	</div>
+	<div id="modal" class="modal">
+		<div class="modal-content">
+			<span class="modal-close" onclick="closeModal()">&times;</span>
+			<p id="modal-text"></p>
+		</div>
+	</div>
+	<script>
+		function drag(event) {
+			event.dataTransfer.setData("text", event.target.src);
+		}
+
+		function allowDrop(event) {
+			event.preventDefault();
+		}
+
+		function drop(event) {
+			event.preventDefault();
+			var data = event.dataTransfer.getData("text");
+			var dropzone = event.target;
+
+			dropzone.style.backgroundImage = "url('" + data + "')";
+			dropzone.classList.add("selected");
+
+			checkResult(dropzone);
+		}
+
+		function checkResult(dropzone) {
+			var result = document.getElementById("result");
+
+			if (dropzone.id === "dropzone1") {
+				result.innerHTML = "Pilihanmu tepat! Kamu berhasil sampai di kantor dengan lancar. Selamat datang di kantor!";
+			} else if (dropzone.id === "dropzone2") {
+				result.innerHTML = "Sayang sekali, jalur biasa yang kamu lewati sedang macet parah. Kamu terjebak di jalan selama 1 jam.";
+			}
+
+			openModal(result.innerHTML);
+		}
+
+		function openModal(text) {
+			var modal = document.getElementById("modal");
+			var modalText = document.getElementById("modal-text");
+			modalText.innerHTML = text;
+			modal.style.display = "block";
+		}
+
+		function closeModal() {
+			var modal = document.getElementById("modal");
+			modal.style.display = "none";
+		}
+	</script>
+</body>
+</html>
+
+
